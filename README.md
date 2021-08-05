@@ -56,7 +56,7 @@ Building FaCT has been tested on Ubuntu 16.04, 18.04, and macOS.
 
 
 ```
-sudo apt install llvm-6.0 clang-6.0 cmake libgmp-dev m4 pkg-config
+sudo apt install llvm-11 clang-11 cmake libgmp-dev m4 pkg-config
 ```
 
 **macOS**
@@ -96,12 +96,12 @@ export LD_LIBRARY_PATH="$HOME/.opam/4.06.0/lib/z3:$LD_LIBRARY_PATH"
 ```
 
 #### 3. Configure Paths
-The FaCT compiler depends on the LLVM 6.0 toolchain **at runtime**,
-and expects binaries with `-6.0` suffixes. 
-Ensure that `clang-6.0` is in your PATH:
+The FaCT compiler depends on the LLVM 11 toolchain **at runtime**,
+and expects binaries with `11` suffixes.
+Ensure that `clang-11` is in your PATH:
 
 ```
-clang-6.0 --version
+clang-11 --version
 ```
 
 ### Compiling FaCT
@@ -129,8 +129,8 @@ output an object file, which can then be linked to a C file. As an example:
 ```
 cd example/
 ../factc -generate-header example.fact
-clang-6.0 -c main.c
-clang-6.0 -o final main.o example.o
+clang-11 -c main.c
+clang-11 -o final main.o example.o
 ```
 
 You can then run the executable:

@@ -8,7 +8,7 @@ bin_prot	v0.11.0	installed
 biniou	1.2.0	installed
 conf-cmake	1	installed
 conf-gmp	1	installed
-conf-llvm	6.0.0	installed
+conf-llvm	11.0.0	installed
 conf-m4	1	installed
 conf-pkg-config	1.1	installed
 conf-python-2-7	1.0	installed
@@ -27,7 +27,7 @@ fieldslib	v0.11.0	installed
 integers	0.2.2	installed
 jane-street-headers	v0.11.0	installed
 jbuilder	transition	installed
-llvm	6.0.0	root
+llvm	11.0.0	root
 lwt	4.1.0	root
 lwt_ppx	1.2.1	root
 menhir	20180703	root

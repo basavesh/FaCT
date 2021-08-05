@@ -99,16 +99,16 @@ let output_assembly args out_file =
         | O3 -> "-O3"
         | OF -> "-OF" in
     let clang_args =
-      [ "clang-6.0"; "-S"; opt_arg;
+      [ "clang-11"; "-S"; opt_arg;
         out_file_bc; ] @ addl_opts in
       if args.llvm_out then
         run_command
-          "clang-6.0"
+          "clang-11"
           (Array.of_list
              (clang_args @ ["-emit-llvm"; "-o"; out_file_ll]))
           true |> ignore;
       run_command
-        "clang-6.0"
+        "clang-11"
         (Array.of_list
            (clang_args @ ["-o"; out_file_s]))
         true |> ignore
@@ -130,12 +130,12 @@ let output_object args out_file =
         | O3 -> "-O3"
         | OF -> "-OF" in
     let clang_args =
-      [ "clang-6.0"; "-c"; opt_arg;
+      [ "clang-11"; "-c"; opt_arg;
         out_file_s; ]
       @ addl_opts
       @ [ "-o"; out_file_o ] in
       run_command
-        "clang-6.0"
+        "clang-11"
         (Array.of_list clang_args)
         true |> ignore
 
@@ -157,12 +157,12 @@ let output_shared_object out_file args =
           | O3 -> "-O3"
           | OF -> "-OF" in
       let clang_args =
-        [ "clang-6.0"; "-shared"; opt_arg;
+        [ "clang-11"; "-shared"; opt_arg;
           out_file_s; ]
         @ addl_opts
         @ [ "-o"; out_file_o ] in
         run_command
-          "clang-6.0"
+          "clang-11"
           (Array.of_list clang_args)
           true |> ignore
 
