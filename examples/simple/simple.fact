@@ -1,9 +1,16 @@
+extern
+public uint64
+secdec(
+  secret uint64 output
+);
+
 export public uint64 encrypt(secret uint64 msg, secret uint64 key) {
 
+  // Looks like I have messed up the logic
   secret mut uint64 output = msg;
   public uint32 temp = 31;
   for(uint32 i from 0 to 31) {
     output ^= (key & (1 << (temp - i)));
   }
-  return declassify(output);
+  return secdec(output);
 }
