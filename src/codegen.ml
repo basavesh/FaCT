@@ -464,13 +464,13 @@ class codegen no_inline_asm llctx llmod m =
             let lle3 = visit#expr e3 in
             let select = _get_intrinsic (_select_of_choice (integer_bitwidth llbty)) in
               build_call select [| lle1; lle2; lle3 |] "" _b
-          | Declassify e
+          | Declassify e ->  visit#expr e
           | Classify e -> visit#expr e
           | Enref e ->
             let lle = visit#expr e in
             let lle_bty = type_of lle in
             let stackloc = build_alloca lle_bty "" _b in
-              build_store lle stackloc _b |> built;
+              build_store lle stacklointrc _b |> built;
               stackloc
           | Deref e ->
             let lle = visit#expr e in
