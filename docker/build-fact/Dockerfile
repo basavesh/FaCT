@@ -34,7 +34,7 @@ RUN usermod -aG sudo docker
 # install docker
 RUN apt-get -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable" && \
+    add-apt-repository "deb [arch=amd64] https://down.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable" && \
     apt-get update && \
     apt-get -y install docker-ce
 
@@ -42,9 +42,9 @@ RUN apt-get -y install apt-transport-https ca-certificates curl gnupg2 software-
 # setup user's account
 USER ${USER}
 RUN echo "export PATH=/usr/lib/llvm-6.0/bin/:$PATH" | tee -a /home/docker/.profile
-RUN opam init --compiler=4.06.0 
+RUN opam init --compiler=4.06.0
 RUN cd /home/docker/ && wget https://raw.githubusercontent.com/PLSysSec/FaCT/master/ocamlswitch.txt && opam switch import ocamlswitch.txt && rm ocamlswitch.txt
-RUN echo "export LD_LIBRARY_PATH=$HOME/.opam/4.06.0/lib/z3" | tee -a /home/docker/.profile 
+RUN echo "export LD_LIBRARY_PATH=$HOME/.opam/4.06.0/lib/z3" | tee -a /home/docker/.profile
 RUN mkdir /home/docker/FaCT
 
 ###############################

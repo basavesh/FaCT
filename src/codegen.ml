@@ -470,7 +470,7 @@ class codegen no_inline_asm llctx llmod m =
             let lle = visit#expr e in
             let lle_bty = type_of lle in
             let stackloc = build_alloca lle_bty "" _b in
-              build_store lle stacklointrc _b |> built;
+              build_store lle stackloc _b |> built;
               stackloc
           | Deref e ->
             let lle = visit#expr e in

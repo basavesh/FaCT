@@ -16,7 +16,6 @@ type intrinsic =
   | CmovXor of int
   | CmovSel of int
   | CmovAsm8 of int
-  | Fence
 
 let select_of_choice n = SelectAsm n
 let cmov_of_choice n = CmovAsm n

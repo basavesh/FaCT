@@ -20,14 +20,15 @@ export public uint64 encrypt(secret mut uint64[32] msg, secret uint64 key) {
     msg[i] = output;
   }
 
+  public mut uint64 test = 0;
   if (true ) {
-    temp = 31;
+    test = 31;
   } else {
-    temp = 45;
+    test = 45;
   }
 
 
   // ms_flag_false(i > 31);
 
-  return declassify(output);
+  return declassify(output) + test;
 }
