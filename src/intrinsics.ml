@@ -16,6 +16,7 @@ type intrinsic =
   | CmovXor of int
   | CmovSel of int
   | CmovAsm8 of int
+  | Fence
 
 let select_of_choice n = SelectAsm n
 let cmov_of_choice n = CmovAsm n
@@ -39,6 +40,7 @@ let get_intrinsic_name = function
   | CmovAsm sz -> "fact.cmov.asm.i" ^ (string_of_int sz)
   | CmovXor sz -> "fact.cmov.xor.i" ^ (string_of_int sz)
   | CmovSel sz -> "fact.cmov.sel.i" ^ (string_of_int sz)
+  | Fence -> "llvm.x86.sse2.lfence"
 
 let make_stuff llctx llmod =
   let i1ty = i1_type llctx in
@@ -63,6 +65,10 @@ let make_stuff llctx llmod =
           position_at_end bb b;
           fn,b in
       match code with
+        | Fence ->
+          let ft = function_type voidty [| |] in
+          let lfence = declare_function "llvm.x86.sse2.lfence" ft llmod in
+          lfence
         | Memcpy sz ->
           let bytesz = sz / 8 in
           let pty = pointer_type (integer_type llctx sz) in

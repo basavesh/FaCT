@@ -23,15 +23,15 @@ TESTS=$(patsubst harness%.c,testbin%,$(SRC))
 
 all: $(TESTS) run failure
 
-# test_%.fact --> test_%.o 
+# test_%.fact --> test_%.o
 %.o: %.fact
-	../factc -debug -ast-out -core-ir-out -llvm-out -pseudocode -generate-header $<
+	../factc -debug -ast-out -llvm-out -pseudocode -generate-header $<
 
-# harness_%.c --> harness_%_runner.c 
+# harness_%.c --> harness_%_runner.c
 %_runner.c: %.c
 	ruby $(UNITY_ROOT)/auto/generate_test_runner.rb $< $@
 
-# all --> testbin_% 
+# all --> testbin_%
 testbin_%: test_%.o harness_%.c harness_%_runner.c
 	$(CC) $(CFLAGS) $(INCLUDE) $(UNITY_ROOT)/src/unity.c $^ -o $@
 
@@ -44,4 +44,4 @@ failure:
 
 clean:
 	rm -f *.o *.bc *.s *_runner.c testbin* *.ast.ml *.tast.ml *.core.ml *.ll *.pseudo.fact *.xftast.ml *.h $(FAILURES_DIR)/*.o $(FAILURES_DIR)/*.bc $(FAILURES_DIR)/*.s
-	
+
