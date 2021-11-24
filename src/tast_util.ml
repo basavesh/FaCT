@@ -1,6 +1,9 @@
 open Pos
 open Err
 open Tast
+open Llvm
+
+let built : Llvm.llvalue -> unit = ignore
 
 let vequal x y = x.data = y.data
 
@@ -15,6 +18,7 @@ let is_integral =
 
 let bitsize =
   xwrap @@ fun p -> function
+    | UVec (s, _, _)
     | UInt (s,_)
     | Int (s,_) -> s
     | _ -> raise @@ err p
@@ -109,6 +113,37 @@ let rec declassify bty =
       | _ -> raise @@ err p
   in
     p@>bty'
+
+let rec aesenc bty =
+  let p = bty.pos in
+  let pub = p@>Public in
+  let bty' =
+    match bty.data with
+      | Bool _ -> Bool pub
+      | UInt (s,_) -> UInt (s,pub)
+      | Int (s,_) -> Int (s,pub)
+      | Ref (bty,m) -> Ref (aesenc bty,m)
+      | Arr (bty,lex,vattr) -> Arr (aesenc bty,lex,vattr)
+      | UVec (s, n, l) -> bty.data
+      | _ -> raise @@ err p
+  in
+    p@>bty'
+
+let rec aesenclast bty =
+  let p = bty.pos in
+  let pub = p@>Public in
+  let bty' =
+    match bty.data with
+      | Bool _ -> Bool pub
+      | UInt (s,_) -> UInt (s,pub)
+      | Int (s,_) -> Int (s,pub)
+      | Ref (bty,m) -> Ref (aesenclast bty,m)
+      | Arr (bty,lex,vattr) -> Arr (aesenclast bty,lex,vattr)
+      | UVec (s, n, l) -> bty.data
+      | _ -> raise @@ err p
+  in
+    p@>bty'
+
 
 let length_of =
   xwrap @@ fun p -> function
@@ -258,4 +293,3 @@ let findfn fmap fname =
 
 let findfn_opt fmap fname =
   Core.List.Assoc.find fmap fname ~equal:vequal
-

@@ -69,6 +69,7 @@ let lit_to_type { data=t; pos=p } =
 %token REF
 %token RETURN
 %token DECLASSIFY ASSUME
+%token AESENC AESENCLAST
 %token ARRZEROS ARRCOPY ARRVIEW NOINIT
 %token SEMICOLON
 %token COMMA
@@ -246,7 +247,8 @@ nonfn_expr:
   | e1=expr QUESTION e2=expr COLON e3=expr %prec TERNOP { mkpos (TernOp(e1, e2, e3)) }
   | e1=expr QUESTION QUESTION e2=expr COLON COLON e3=expr %prec TERNOP { mkpos (Select(e1, e2, e3)) }
   | DECLASSIFY e=paren(expr) { mkpos (Declassify e) }
-
+  | AESENC LPAREN e1=expr COMMA e2=expr RPAREN { mkpos (AESENC(e1, e2)) }
+  | AESENCLAST LPAREN e1=expr COMMA e2=expr RPAREN { mkpos (AESENCLAST(e1, e2)) }
   | REF e=expr { mkpos (Enref e) }
   | TIMES e=expr %prec UNARYOP { mkpos (Deref e) }
   | e=expr i=brack(lexpr) { mkpos (ArrayGet(e, i)) }
@@ -254,15 +256,12 @@ nonfn_expr:
   | ARRZEROS l=paren(lexpr) { mkpos (ArrayZeros l) }
   | ARRCOPY e=paren(expr) { mkpos (ArrayCopy e) }
   | ARRVIEW LPAREN e=expr COMMA i=lexpr COMMA l=lexpr RPAREN { mkpos (ArrayView(e, i, l)) }
-
   | LESSTHAN ns=separated_list(COMMA, INT) GREATERTHAN
     { mkpos (VectorLit ns) }
   | e=expr COLON LESSTHAN mask=separated_list(COMMA, INT) GREATERTHAN
     { mkpos (Shuffle(e, mask)) }
-
   | fs=alist(fieldassign) { mkpos (StructLit fs) }
   | e=expr DOT x=var_name { mkpos (StructGet(e, x)) }
-
   | s=STRING {mkpos (StringLiteral s) }
 
 expr:

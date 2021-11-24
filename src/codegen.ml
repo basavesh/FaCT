@@ -467,8 +467,17 @@ class codegen no_inline_asm llctx llmod m =
           | Declassify e ->   let lfence = _get_intrinsic (Intrinsics.Fence) in
                               build_call lfence [| |] "" _b;
                               visit#expr e
-
           | Classify e -> visit#expr e
+          | AESENC (e1,e2) ->
+            let lle1 = visit#expr e1 in
+            let lle2 = visit#expr e2 in
+            let aesenc = _get_intrinsic (Intrinsics.AESENC) in
+              build_call aesenc [| lle1; lle2 |] "" _b
+          | AESENCLAST (e1,e2) ->
+            let lle1 = visit#expr e1 in
+            let lle2 = visit#expr e2 in
+            let aesenclast = _get_intrinsic (Intrinsics.AESENCLAST) in
+              build_call aesenclast [| lle1; lle2 |] "" _b
           | Enref e ->
             let lle = visit#expr e in
             let lle_bty = type_of lle in

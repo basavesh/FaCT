@@ -282,6 +282,14 @@ class pseudocode (m : fact_module) =
         | Classify e ->
           let e' = visit#expr e in
             sprintf "classify(%s)" e'
+        | AESENC (e1,e2) ->
+          let e1' = visit#expr e1 in
+          let e2' = visit#expr e2 in
+            sprintf "aesenc(%s, %s)" e1' e2'
+        | AESENCLAST (e1,e2) ->
+          let e1' = visit#expr e1 in
+          let e2' = visit#expr e2 in
+            sprintf "aesenclast(%s, %s)" e1' e2'
         | Enref e ->
           sprintf "ref %s" (visit#expr e)
         | Deref e ->

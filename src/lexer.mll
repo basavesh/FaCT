@@ -15,11 +15,11 @@ let raise_error lexbuf msg =
   | { pos_fname=fn; pos_lnum=pl; pos_bol=pb; pos_cnum=pc } ->
     match !file with
     | Some f ->
-      raise (TokenError(msg ^ ", in file " ^ 
-      f ^ ", line number " ^ (string_of_int pl) ^ ", position " ^ 
+      raise (TokenError(msg ^ ", in file " ^
+      f ^ ", line number " ^ (string_of_int pl) ^ ", position " ^
       (string_of_int start) ^ "-" ^ (string_of_int ends) ))
-    | None -> raise (TokenError(msg ^ 
-      ", at line number " ^ (string_of_int pl) ^ ", position " ^ 
+    | None -> raise (TokenError(msg ^
+      ", at line number " ^ (string_of_int pl) ^ ", position " ^
       (string_of_int start) ^ "-" ^ (string_of_int ends)))
 
 let raise_token_error lexbuf =
@@ -49,6 +49,8 @@ let keywords = [
   ("ref",REF);
   ("len",LEN);
   ("declassify",DECLASSIFY);
+  ("aesenc",AESENC);
+  ("aesenclast",AESENCLAST);
   ("assume",ASSUME);
   ("zeros",ARRZEROS);
   ("clone",ARRCOPY);

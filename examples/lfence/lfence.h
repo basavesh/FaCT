@@ -4,14 +4,10 @@
 
 
 
-
-
-
-
-
-
 /*public*/ uint64_t encrypt(
-  /*secret*/ uint64_t __v4_msg[32],
-  /*secret*/ uint64_t __v5_key);
+  /*secret*/ uint64_t __v1_msg[32],
+  /*secret*/ uint64_t __v2_key);
+
+
 
 #endif /* __LFENCE_H */

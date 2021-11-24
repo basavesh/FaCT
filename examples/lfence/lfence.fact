@@ -1,34 +1,11 @@
-extern
-public uint64
-secdec(
-  secret uint64 output
-);
-
-extern
-void ms_flag_true(public bool cond);
-extern void ms_flag_false(public bool cond);
-
 export public uint64 encrypt(secret mut uint64[32] msg, secret uint64 key) {
-
-  public mut uint64 ms_flag = 0;
-  // Looks like I have messed up the logic
   secret mut uint64 output = msg[0];
-  public uint32 temp = 31;
-  for(uint32 i from 0 to 31) {
-    ms_flag = (i >= 0 && i < 32) ? ms_flag : 1;
-    output ^= (key & (1 << (temp - i)));
-    msg[i] = output;
-  }
 
-  public mut uint64 test = 0;
-  if (true ) {
-    test = 31;
-  } else {
-    test = 45;
-  }
-
-
-  // ms_flag_false(i > 31);
-
-  return declassify(output) + test;
+  public mut uint64[2] st = [0x0123456789ABCDEF, 0x0899AABBCCDDEEFF];
+  public mut uint64<2>  state = load_le(view(st, 0, 2));
+  public mut uint64<2> rkey = load_le(view(st, 0, 2));
+  // return aesenc(state, rkey);
+  public mut uint64<2> result = aesenc(state, rkey);
+  public mut uint64<2> resultlast = aesenclast(state, rkey);
+  return declassify(output);
 }

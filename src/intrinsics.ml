@@ -17,6 +17,8 @@ type intrinsic =
   | CmovSel of int
   | CmovAsm8 of int
   | Fence
+  | AESENC
+  | AESENCLAST
 
 let select_of_choice n = SelectAsm n
 let cmov_of_choice n = CmovAsm n
@@ -41,6 +43,8 @@ let get_intrinsic_name = function
   | CmovXor sz -> "fact.cmov.xor.i" ^ (string_of_int sz)
   | CmovSel sz -> "fact.cmov.sel.i" ^ (string_of_int sz)
   | Fence -> "llvm.x86.sse2.lfence"
+  | AESENC -> "llvm.x86.aesni.aesenc"
+  | AESENCLAST -> "llvm.x86.aesni.aesenclast"
 
 let make_stuff llctx llmod =
   let i1ty = i1_type llctx in
@@ -48,7 +52,8 @@ let make_stuff llctx llmod =
   let _i16ty = i16_type llctx in
   let i32ty = i32_type llctx in
   let i64ty = i64_type llctx in
-  let _i128ty = integer_type llctx 128 in
+  let i64x2ty = vector_type i64ty 2 in
+  let i128ty = integer_type llctx 128 in
   let voidty = void_type llctx in
   let memty = pointer_type i8ty in
   let _noinline = create_enum_attr llctx "noinline" 0L in
@@ -69,6 +74,14 @@ let make_stuff llctx llmod =
           let ft = function_type voidty [| |] in
           let lfence = declare_function "llvm.x86.sse2.lfence" ft llmod in
           lfence
+        | AESENC ->
+          let ft = function_type i64x2ty [| i64x2ty; i64x2ty |] in
+          let aesenc = declare_function "llvm.x86.aesni.aesenc" ft llmod in
+          aesenc
+        | AESENCLAST ->
+          let ft = function_type i64x2ty [| i64x2ty; i64x2ty |] in
+          let aesenclast = declare_function "llvm.x86.aesni.aesenclast" ft llmod in
+          aesenclast
         | Memcpy sz ->
           let bytesz = sz / 8 in
           let pty = pointer_type (integer_type llctx sz) in

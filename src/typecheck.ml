@@ -520,6 +520,16 @@ class typechecker =
           let e' = visit#expr e in
           let e_bty = type_of e' in
             Declassify e', declassify e_bty
+        | Ast.AESENC (e1,e2) ->
+           let e1' = visit#expr e1 in
+           let e2' = visit#expr e2 in
+           let e_bty = type_of e2' in
+             AESENC (e1',e2'), aesenc e_bty
+        | Ast.AESENCLAST (e1,e2) ->
+           let e1' = visit#expr e1 in
+           let e2' = visit#expr e2 in
+           let e_bty = type_of e2' in
+             AESENCLAST (e1',e2'), aesenclast e_bty
         | Ast.Enref e ->
           let e' = visit#expr ?lookahead_bty e in
           let e_bty = type_of e' in
