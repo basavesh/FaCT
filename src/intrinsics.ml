@@ -75,9 +75,21 @@ let make_stuff llctx llmod =
           let lfence = declare_function "llvm.x86.sse2.lfence" ft llmod in
           lfence
         | AESENC ->
-          let ft = function_type i64x2ty [| i64x2ty; i64x2ty |] in
-          let aesenc = declare_function "llvm.x86.aesni.aesenc" ft llmod in
-          aesenc
+          let encft = function_type i64x2ty [| i64x2ty; i64x2ty |] in
+          let aesenc = declare_function "llvm.x86.aesni.aesenc" encft llmod in
+          let ft = function_type i128ty [| i128ty; i128ty |] in
+          let fn,b = def_internal name ft in
+          let state = param fn 0 in
+          let rkey = param fn 1 in
+            set_value_name "state" state;
+            set_value_name "rkey" rkey;
+          let state_ = build_bitcast state i64x2ty "" b in
+          let rkey_ = build_bitcast rkey i64x2ty "" b in
+          let result_ = build_call aesenc [| state_; rkey_ |] "" b in
+          let test = build_bitcast result_ i128ty "" b in
+          let result = state in
+          build_ret test b |> built;
+          fn
         | AESENCLAST ->
           let ft = function_type i64x2ty [| i64x2ty; i64x2ty |] in
           let aesenclast = declare_function "llvm.x86.aesni.aesenclast" ft llmod in

@@ -1,11 +1,5 @@
-export public uint64 encrypt(secret mut uint64[32] msg, secret uint64 key) {
-  secret mut uint64 output = msg[0];
-
-  public mut uint64[2] st = [0x0123456789ABCDEF, 0x0899AABBCCDDEEFF];
-  public mut uint64<2>  state = load_le(view(st, 0, 2));
-  public mut uint64<2> rkey = load_le(view(st, 0, 2));
-  // return aesenc(state, rkey);
-  public mut uint64<2> result = aesenc(state, rkey);
-  public mut uint64<2> resultlast = aesenclast(state, rkey);
-  return declassify(output);
+export public uint128 encrypt( ) {
+  public mut uint128 state = 0x0123456789ABCDEF;
+  public mut uint128 rkey = 0x0899AABBCCDDEEFF;
+  return aesenc(state, state);
 }
