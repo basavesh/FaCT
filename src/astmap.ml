@@ -142,6 +142,14 @@ class ast_visitor =
           | Declassify e ->
             let e' = visit#expr e in
               Declassify e'
+          | AESENC (e1,e2) ->
+             let e1' = visit#expr e1 in
+             let e2' = visit#expr e2 in
+               AESENC (e1',e2')
+           | AESENCLAST (e1,e2) ->
+             let e1' = visit#expr e1 in
+             let e2' = visit#expr e2 in
+               AESENCLAST (e1',e2')
           | Enref e ->
             Enref (visit#expr e)
           | Deref e ->

@@ -173,6 +173,14 @@ class tast_visitor (m : fact_module) =
           | Classify e ->
             let e' = visit#expr e in
               Classify e'
+          | AESENC (e1,e2) ->
+             let e1' = visit#expr e1 in
+             let e2' = visit#expr e2 in
+               AESENC (e1',e2')
+           | AESENCLAST (e1,e2) ->
+             let e1' = visit#expr e1 in
+             let e2' = visit#expr e2 in
+               AESENCLAST (e1',e2')
           | Enref e ->
             Enref (visit#expr e)
           | Deref e ->

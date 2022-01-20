@@ -72,6 +72,8 @@ and expr' =
   | TernOp of expr * expr * expr
   | Select of expr * expr * expr  (* ct version of TernOp *)
   | Declassify of expr
+  | AESENC of expr * expr
+  | AESENCLAST of expr * expr
   (* Non-blessable *)
   | Enref of expr
   | Deref of expr

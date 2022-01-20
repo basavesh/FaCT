@@ -257,6 +257,7 @@ let llvm_for
     let _i16ty = i16_type llctx in
     let _i32ty = i32_type llctx in
     let i64ty = i64_type llctx in
+    let i64x2ty = vector_type i64ty 2 in
     let _i128ty = integer_type llctx 128 in
     let voidty = void_type llctx in
     let memty = pointer_type i8ty in
