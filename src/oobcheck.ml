@@ -462,6 +462,8 @@ class oobchecker debug m =
                 zpop _expr e >>= fun z ->
                 return @@ zpush _expr e__ z
               end |> consume
+            | AESENC (e1,e2) -> ()
+            | AESENCLAST (e1,e2) -> ()
             (* Non-blessable *)
             | Enref _ -> ()
             | Deref ({data=Variable x},_) ->
