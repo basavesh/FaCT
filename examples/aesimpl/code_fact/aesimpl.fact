@@ -1,0 +1,71 @@
+struct AES_KEY {
+    secret uint64[30] rd_key; // 4 * (AES_MAXNR + 1) and
+                            // uint32[60] modified to uint64[30]
+    public int32 rounds;
+}
+
+export void looped (secret uint64[2] plaintext,
+                    secret mut uint64[2] ciphertext,
+                    mut AES_KEY key) {
+
+    secret mut uint64<2> state = load_le(plaintext);
+    secret mut uint64<2> rd_key = load_le(view(key.rd_key, 0, 2));
+
+    state = state ^ rd_key;
+    public uint32 rounds = uint32(key.rounds);
+    for (uint32 i from 0 to rounds) {
+        assume(rounds < 15);
+        state = aesenc(state, rd_key);
+        rd_key = load_le(view(key.rd_key, i * 2 + 2, 2));
+    }
+    state = aesenclast(state, rd_key);
+
+    store_le(ciphertext, state);
+}
+
+export void unrolled (secret uint64[2] plaintext,
+                    secret mut uint64[2] ciphertext,
+                    mut AES_KEY key) {
+
+    secret mut uint64<2> state = load_le(plaintext);
+    secret mut uint64<2> rd_key = load_le(view(key.rd_key, 0, 2));
+
+    public uint32 rounds = uint32(key.rounds);
+    assume(rounds < 15);
+    state = state ^ rd_key;
+    rd_key = load_le(view(key.rd_key, 2, 2));
+
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 4, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 6, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 8, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 10, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 12, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 14, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 16, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 18, 2));
+    state = aesenc(state, rd_key);
+    rd_key = load_le(view(key.rd_key, 20, 2));
+    if (rounds > 10) {
+        state = aesenc(state, rd_key);
+        rd_key = load_le(view(key.rd_key, 22, 2));
+        state = aesenc(state, rd_key);
+        rd_key = load_le(view(key.rd_key, 24, 2));
+        if (rounds > 12) {
+            state = aesenc(state, rd_key);
+            rd_key = load_le(view(key.rd_key, 26, 2));
+            state = aesenc(state, rd_key);
+            rd_key = load_le(view(key.rd_key, 28, 2));
+        }
+    }
+    state = aesenclast(state, rd_key);
+
+    store_le(ciphertext, state);
+}
