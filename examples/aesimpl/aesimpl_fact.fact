@@ -4,7 +4,7 @@ struct AES_KEY {
     public int32 rounds;
 }
 
-export void looped (secret uint64[2] plaintext,
+export void looped_fact (secret uint64[2] plaintext,
                     secret mut uint64[2] ciphertext,
                     mut AES_KEY key) {
 
@@ -13,17 +13,17 @@ export void looped (secret uint64[2] plaintext,
 
     state = state ^ rd_key;
     public uint32 rounds = uint32(key.rounds);
-    for (uint32 i from 0 to rounds) {
+    for (uint32 i from 1 to rounds) {
         assume(rounds < 15);
         state = aesenc(state, rd_key);
-        rd_key = load_le(view(key.rd_key, i * 2 + 2, 2));
+        rd_key = load_le(view(key.rd_key, i * 2, 2));
     }
     state = aesenclast(state, rd_key);
 
     store_le(ciphertext, state);
 }
 
-export void unrolled (secret uint64[2] plaintext,
+export void unrolled_fact (secret uint64[2] plaintext,
                     secret mut uint64[2] ciphertext,
                     mut AES_KEY key) {
 
