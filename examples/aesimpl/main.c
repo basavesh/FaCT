@@ -96,21 +96,21 @@ int main(int ac, char **av)
     tobinary("00000000000000000000000000000000", input, 16);
 
     // Print ciphertext for reduced rounds and using the training key
-    looped(input, output_fr, aeskeyV);
-    looped_fact(input, output_fr_fact, aeskeyV);
+    unrolled(input, output_fr, aeskeyV);
+    unrolled_fact(input, output_fr_fact, aeskeyV);
     aeskeyT->rounds = SPECULATED_ROUND_COUNT;
-    looped(input, output_tk, aeskeyT);
-    looped_fact(input, output_tk_fact, aeskeyT);
+    unrolled(input, output_tk, aeskeyT);
+    unrolled_fact(input, output_tk_fact, aeskeyT);
     int old = aeskeyV->rounds;
     aeskeyV->rounds = SPECULATED_ROUND_COUNT;
-    looped(input, output_sr, aeskeyV);
-    looped_fact(input, output_sr_fact, aeskeyV);
+    unrolled(input, output_sr, aeskeyV);
+    unrolled_fact(input, output_sr_fact, aeskeyV);
     aeskeyV->rounds = old;
-    print("FULL ROUNDS", output_fr);
+    print("FULL ROUNDS     ", output_fr);
     print("FULL ROUNDS_FACT", output_fr_fact);
-    print(" SPECULATED", output_sr);
+    print(" SPECULATED     ", output_sr);
     print(" SPECULATED_FACT", output_sr_fact);
-    print("   TRAINING", output_tk);
+    print("   TRAINING     ", output_tk);
     print("   TRAINING_FACT", output_tk_fact);
     printf("\n");
 

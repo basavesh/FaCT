@@ -13,11 +13,12 @@ export void looped_fact (secret uint64[2] plaintext,
 
     state = state ^ rd_key;
     public uint32 rounds = uint32(key.rounds);
+    assume(rounds < 15);
     for (uint32 i from 1 to rounds) {
-        assume(rounds < 15);
-        state = aesenc(state, rd_key);
         rd_key = load_le(view(key.rd_key, i * 2, 2));
+        state = aesenc(state, rd_key);
     }
+    rd_key = load_le(view(key.rd_key, rounds * 2, 2));
     state = aesenclast(state, rd_key);
 
     store_le(ciphertext, state);
