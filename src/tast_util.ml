@@ -106,6 +106,7 @@ let rec declassify bty =
       | Int (s,_) -> Int (s,pub)
       | Ref (bty,m) -> Ref (declassify bty,m)
       | Arr (bty,lex,vattr) -> Arr (declassify bty,lex,vattr)
+      | UVec (s, n, l) -> UVec (s, n, pub)
       | _ -> raise @@ err p
   in
     p@>bty'
@@ -258,4 +259,3 @@ let findfn fmap fname =
 
 let findfn_opt fmap fname =
   Core.List.Assoc.find fmap fname ~equal:vequal
-

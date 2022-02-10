@@ -15,8 +15,10 @@ void unrolled_fact(
 
 void looped_fact(
   const /*secret*/ uint64_t __v7_plaintext[2],
-  /*secret*/ uint64_t __v8_ciphertext[2],
+  /*public*/ uint64_t __v8_ciphertext[2],
   struct AES_KEY * __v9_key);
+
+
 
 
 

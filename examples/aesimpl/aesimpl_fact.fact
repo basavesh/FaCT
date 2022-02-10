@@ -5,7 +5,7 @@ struct AES_KEY {
 }
 
 export void looped_fact (secret uint64[2] plaintext,
-                    secret mut uint64[2] ciphertext,
+                    public mut uint64[2] ciphertext,
                     mut AES_KEY key) {
 
     secret mut uint64<2> state = load_le(plaintext);
@@ -21,11 +21,12 @@ export void looped_fact (secret uint64[2] plaintext,
     rd_key = load_le(view(key.rd_key, rounds * 2, 2));
     state = aesenclast(state, rd_key);
 
-    store_le(ciphertext, state);
+    store_le(ciphertext, declassify(state));
+
 }
 
 export void unrolled_fact (secret uint64[2] plaintext,
-                    secret mut uint64[2] ciphertext,
+                    public mut uint64[2] ciphertext,
                     mut AES_KEY key) {
 
     secret mut uint64<2> state = load_le(plaintext);
@@ -68,5 +69,5 @@ export void unrolled_fact (secret uint64[2] plaintext,
     }
     state = aesenclast(state, rd_key);
 
-    store_le(ciphertext, state);
+    store_le(ciphertext, declassify(state));
 }
