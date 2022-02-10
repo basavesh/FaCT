@@ -10,15 +10,13 @@ struct AES_KEY;
 
 void unrolled_fact(
   const /*secret*/ uint64_t __v1_plaintext[2],
-  /*secret*/ uint64_t __v2_ciphertext[2],
+  /*public*/ uint64_t __v2_ciphertext[2],
   struct AES_KEY * __v3_key);
 
 void looped_fact(
   const /*secret*/ uint64_t __v7_plaintext[2],
   /*public*/ uint64_t __v8_ciphertext[2],
   struct AES_KEY * __v9_key);
-
-
 
 
 
