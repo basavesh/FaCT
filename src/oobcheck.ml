@@ -665,7 +665,7 @@ class oobchecker debug m =
               zpop _expr e >>= fun z ->
               visit#_add z;
               return res
-
+          | Lfence
           | VoidFnCall (_,_)
           | Assign (_,_) (* update info? or no since refs are not blessable? *)
           | Cmov (_,_,_) (* update info? or no since refs are not blessable? *)

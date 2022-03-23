@@ -94,6 +94,7 @@ and block' =
   | If of cond * thenblock * elseblock
   | RangeFor of var_name * base_type * expr * expr * block
   | ArrayFor of var_name * base_type * expr * block
+
 and block = block' pos_ast * next
 
 and next' =
@@ -110,6 +111,8 @@ and simple_statement' =
   | Assign of expr * expr
   | Cmov of expr * cond * expr
   | Assume of expr
+  | Lfence
+
 and simple_statement = simple_statement' pos_ast [@@deriving show]
 
 and param' =

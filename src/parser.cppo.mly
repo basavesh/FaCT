@@ -68,6 +68,7 @@ let lit_to_type { data=t; pos=p } =
 %token CONST MUT
 %token REF
 %token RETURN
+%token LFENCE
 %token DECLASSIFY ASSUME
 %token AESENC AESENCLAST
 %token ARRZEROS ARRCOPY ARRVIEW NOINIT
@@ -301,6 +302,8 @@ statement:
     { mkpos (Return e) }
   | RETURN SEMICOLON
     { mkpos VoidReturn }
+  | LFENCE SEMICOLON
+    { mkpos Lfence }
   | ASSUME e=paren(expr) SEMICOLON
     { mkpos (Assume e) }
   | a=BIGFOR LPAREN x=var_name FROM n1=INT TO n2=INT z=RPAREN stms=block

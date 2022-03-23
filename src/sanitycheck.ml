@@ -140,6 +140,7 @@ class sanitychecker post_transform m =
                       | _ -> raise @@ err p
                   end
             | Assume e -> ()
+            | Lfence -> ()
         end;
         stm'
 

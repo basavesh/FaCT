@@ -41,6 +41,7 @@ let keywords = [
   ("from",FROM);
   ("to",TO);
   ("in",IN);
+  ("lfence", LFENCE);
   ("return",RETURN);
   ("public",PUBLIC);
   ("secret",SECRET);

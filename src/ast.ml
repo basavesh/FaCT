@@ -139,6 +139,7 @@ and statement' =
   | ArrayFor of var_name * basic_type * expr * block
   | Return of expr
   | VoidReturn
+  | Lfence
   | Assume of expr
   | BigFor of var_name * int * int * block
 [@@deriving show]

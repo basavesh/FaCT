@@ -417,6 +417,8 @@ class codegen no_inline_asm llctx llmod m =
           let result = build_call cmov [| llcond; lle2; orig |] "" _b in
             build_store result lle1 _b |> built
         | Assume e -> ()
+        | Lfence -> let lfence = _get_intrinsic (Intrinsics.Fence) in
+                    build_call lfence [| |] "" _b |> built
 
     method expr ({pos=p;data},bty) =
       let llbty = visit#bty bty in

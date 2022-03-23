@@ -8,5 +8,6 @@ export secret uint32 choose(
     output = b;
   }
 
+  lfence;
   return output;
 }

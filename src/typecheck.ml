@@ -334,6 +334,7 @@ class typechecker =
                     let blk' = visit#block p pc blk in
                       next (p@>Scope blk')
                   | Ast.VarDec _
+                  | Ast.Lfence
                   | Ast.FnCall _
                   | Ast.VoidFnCall _
                   | Ast.Assign _
@@ -1032,6 +1033,7 @@ class typechecker =
           | Ast.ArrayFor _ -> raise @@ err p
           | Ast.Return _ -> raise @@ err p
           | Ast.VoidReturn -> raise @@ err p
+          | Ast.Lfence -> Lfence
           | Ast.Assume e ->
             let e' = visit#expr e in
               if not (is_bool (type_of e')) then

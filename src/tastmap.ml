@@ -127,6 +127,7 @@ class tast_visitor (m : fact_module) =
           | Assume e ->
             let e' = visit#expr e in
               Assume e'
+          | Lfence -> Lfence
       in
         p @> stm_'
 

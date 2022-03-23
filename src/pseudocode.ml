@@ -240,6 +240,7 @@ class pseudocode (m : fact_module) =
         | Assume e ->
           let e' = visit#expr e in
             sprintf "assume(%s);" e'
+        | Lfence -> sprintf "lfence;"
 
     method expr (e_,_) =
       match e_.data with

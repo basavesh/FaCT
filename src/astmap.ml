@@ -92,6 +92,7 @@ class ast_visitor =
           let e' = visit#expr e in
             [Return e']
         | VoidReturn -> [VoidReturn]
+        | Lfence -> [Lfence]
         | Assume e ->
           let e' = visit#expr e in
             [Assume e']
