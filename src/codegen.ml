@@ -466,9 +466,7 @@ class codegen no_inline_asm llctx llmod m =
             let lle3 = visit#expr e3 in
             let select = _get_intrinsic (_select_of_choice (integer_bitwidth llbty)) in
               build_call select [| lle1; lle2; lle3 |] "" _b
-          | Declassify e ->   let lfence = _get_intrinsic (Intrinsics.Fence) in
-                              build_call lfence [| |] "" _b;
-                              visit#expr e
+          | Declassify e -> visit#expr e
           | Classify e -> visit#expr e
           | AESENC (e1,e2) ->
             let lle1 = visit#expr e1 in
